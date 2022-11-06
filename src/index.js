@@ -11,6 +11,7 @@ require('dotenv').config()
 
 // Already covered in part 2
 const accountsRouter = require('./controller/account')
+const translationsRouter = require('./controller/transaction')
 
 /*
     Here we are just importing the router we've created at the
@@ -27,6 +28,7 @@ app.use(express.json())
 
 // Already covered in part 2
 app.use(accountsRouter)
+app.use(translationsRouter)
 
 /*
     Here we are just attaching the router we've created at the

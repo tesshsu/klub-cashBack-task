@@ -6,7 +6,9 @@
   "scripts": {
     "test": "jest",
     "start": "nodemon src/index",
-    "migrate": "knex migrate:latest"
+    "migrate": "knex migrate:latest",
+    "migrate-all": "knex migrate:rollback --all",
+    "seed": "knex seed:run"
   },
   "repository": {
     "type": "git",
