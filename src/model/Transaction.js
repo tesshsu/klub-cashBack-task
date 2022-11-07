@@ -6,10 +6,10 @@ class Transaction{
 
     // tested
     static async create(transaction) {
-        if (Account.validate(transaction)) {
+        if (Transaction.validate(transaction)) {
             transaction.account_id = transaction.accountId
             delete transaction.accountId
-            const id = await db('transactionq').insert(transaction)
+            const id = await db('transactions').insert(transaction)
             transaction.id = id[0]
             return transaction
         } else {
@@ -18,12 +18,10 @@ class Transaction{
     }
 
     // tested
-    static validate(account) {
+    static validate(transaction) {
         let valid = true
         if (!transaction.type) valid = false
-        if (transaction.total) valid = false
-        if (transaction.description) valid = false
-        if (transaction.extra) valid = false
+        if (!transaction.total) valid = false
         if (!transaction.accountId) valid = false
         return valid
     }

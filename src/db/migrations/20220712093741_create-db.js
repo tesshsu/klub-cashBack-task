@@ -4,7 +4,7 @@
  */
 exports.up = function(knex) {
     return knex.schema.createTable('users', table => {
-            table.increments('id')
+            table.increments('id').primary()
             table.string('firstName').notNullable()
             table.string('lastName').notNullable()
             table.string('email').notNullable().unique()
@@ -12,7 +12,7 @@ exports.up = function(knex) {
             table.timestamps(true, true)
         })
         .createTable('accounts', table => {
-            table.increments('id')
+            table.increments('id').primary()
             table.string('iban').notNullable()
             table.integer('balance').notNullable()
             table.timestamps(true, true)

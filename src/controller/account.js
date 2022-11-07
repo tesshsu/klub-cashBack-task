@@ -24,19 +24,6 @@ router.get('/accounts', auth, async (req, res) => {
     }
 })
 
-router.get('/accounts/:id', auth, async (req, res) => {
-    try {
-        const foundAccount = await Account.getOne(req.params.id)
-        if (foundAccount && foundAccount.user_id === req.user.id) {
-            res.status(200).send(foundAccount)
-        } else {
-            res.status(404).send({ message: 'Account not found!'})
-        }
-    } catch(err) {
-        res.status(500).send({ message: err.message })
-    }
-})
-
 router.patch('/account/:id', auth, async (req, res) => {
     try {
         const account = await Account.getOne(req.params.id)

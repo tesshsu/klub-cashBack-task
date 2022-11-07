@@ -5,7 +5,7 @@ const auth = require('../middleware/auth')
 
 router.post('/transactions', auth, async (req, res) => {
     try {
-        const nTransaction = await Transaction.create({...req.body, accountId: req.account.id})
+        const nTransaction = await Transaction.create({...req.body, accountId: req.user.id})
         if (nTransaction) {
             res.status(201).send(nTransaction)
         } else {
@@ -18,7 +18,7 @@ router.post('/transactions', auth, async (req, res) => {
 
 router.get('/transactions', auth, async (req, res) => {
     try {
-        res.status(200).send(await Transactions.getAllOfOneUser(req.user.id))
+        res.status(200).send(await Transaction.getAllOfOneUser(req.user.id))
     } catch(err) {
         res.status(500).send({ message: err.message })
     }

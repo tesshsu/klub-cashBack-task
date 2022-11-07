@@ -6,23 +6,10 @@ const knex = require('knex')
 const config = require('../../knexfile')
 const db = knex(config.development)
 
-/*
-    This is the library used to validate the email address
-    in the user registration process.
-*/
 const validator = require('validator')
 
-/*
-    This is the library responsible for encrypting the password
-    provided by the user in the registration process.
-*/
 const bcrypt = require('bcrypt')
 
-/*
-    This is a basic JavaScript class which handles our
-    fake users database. For more informations on JS
-    classes, please visit: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes
-*/
 class User {
 
     static users = []
@@ -31,7 +18,7 @@ class User {
     static async create(user) {
         if (User.validate(user)) {
             user.password = bcrypt.hashSync(user.password, 10)
-            return await db('users').insert(user)
+            return db('users').insert(user)
         } else {
             return undefined
         }

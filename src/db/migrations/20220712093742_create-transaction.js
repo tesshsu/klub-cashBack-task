@@ -5,12 +5,13 @@
 exports.up = function(knex) {
     return knex.schema.createTable('transactions', table => {
         table.increments('id')
-        table.integer('account_id').notNullable()
         table.enu('type', ['transfer', 'payment', 'refund']).notNullable()
         table.integer('total').notNullable()
         table.text('description').nullable()
         table.text('extra').nullable()
-        table.foreign('account_id').references('id').inTable('accounts')
+        table.integer('account_id').notNullable()
+            .references('id')
+            .inTable('accounts')
     })
 };
 
