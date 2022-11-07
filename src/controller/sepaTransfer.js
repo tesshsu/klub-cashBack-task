@@ -3,7 +3,7 @@ const router = new express.Router()
 const SepaTransfer = require('../model/SepaTransfer')
 const auth = require('../middleware/auth')
 
-router.post('/sepaTransfers', auth, async (req, res) => {
+router.post('/sepaTransfer', auth, async (req, res) => {
     try {
         const nSepaTransfer = await SepaTransfer.create({...req.body, transactionId: req.transaction.id})
         if (nSepaTransfer) {

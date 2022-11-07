@@ -20,6 +20,7 @@ class SepaTransfer extends Transaction{
 
     // tested
     static validate(sepaTransfer) {
+        sepaTransfer.expeditor_name = undefined;
         let valid = true
         if (!sepaTransfer.expeditor_name) valid = false
         if (!sepaTransfer.transactionId) valid = false
