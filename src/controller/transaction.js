@@ -5,7 +5,7 @@ const auth = require('../middleware/auth')
 
 router.post('/transactions', auth, async (req, res) => {
     try {
-        const nTransaction = await Transaction.create({...req.body, accountId: req.user.id})
+        const nTransaction = await Transaction.create({...req.body, accountId: req.account.id})
         if (nTransaction) {
             res.status(201).send(nTransaction)
         } else {

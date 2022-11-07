@@ -5,7 +5,7 @@
 exports.up = function(knex) {
     return knex.schema.createTable('transactions', table => {
         table.increments('id')
-        table.enu('type', ['transfer', 'payment', 'refund']).notNullable()
+        table.enu('type', ['transfer', 'payment', 'refund', 'sepa_transfer','cb_payment']).notNullable()
         table.integer('total').notNullable()
         table.text('description').nullable()
         table.text('extra').nullable()
