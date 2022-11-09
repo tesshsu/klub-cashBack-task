@@ -29,13 +29,18 @@ class SepaTransfer extends Transaction{
 
     // tested
     static async getAll() {
-        return db.select().table('sepaTransfers')
+        return db.select().table('transactions')
+            .where('type', '=',  'sepa_transfer')
+            .join('sepaTransfers', function() {
+                this
+                    .on('sepaTransfers.id', '=', 'transactions.transaction_id')
+            })
     }
 
     // tested
     static async getOne(id) {
         const sepaTransfer = await db('sepaTransfers').where({id})
-        
+
         /**
          * In case of wish not found, knex returns an empty array.
          * Otherwise, it returns an array with just one item inside,
@@ -48,7 +53,7 @@ class SepaTransfer extends Transaction{
     // tested
     static async delete(id) {
         const deletion = await db('sepaTransfers').where({id}).del()
-        
+
         if (deletion > 0) return { message: 'SepaTransfer deleted successfully!' }
         return undefined
     }

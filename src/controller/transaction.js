@@ -2,6 +2,7 @@ const express = require('express')
 const router = new express.Router()
 const Transaction = require('../model/Transaction')
 const auth = require('../middleware/auth')
+const CbPayment = require("../model/CbPayment");
 
 router.post('/transactions', auth, async (req, res) => {
     try {
@@ -16,9 +17,11 @@ router.post('/transactions', auth, async (req, res) => {
     }
 })
 
-router.get('/transactions', auth, async (req, res) => {
+//router.get('/transactions', auth, async (req, res) => {
+router.get('/transactions', async (req, res) => {
     try {
-        res.status(200).send(await Transaction.getAllOfOneUser(req.user.id))
+        res.status(200).send(await Transaction.getAllOfOneUser(1/*req.user.id*/))
+       // res.status(200).send(await CbPayment.getAll(1/*req.user.id*/))
     } catch(err) {
         res.status(500).send({ message: err.message })
     }
@@ -65,7 +68,7 @@ router.delete('/transactions/:id', auth, async (req, res) => {
         } else {
             res.status(403).send({ message: 'This user has no access to this resource.'})
         }
-        
+
     } catch(err) {
         res.status(500).send({ message: err.message })
     }

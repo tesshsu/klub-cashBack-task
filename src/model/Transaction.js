@@ -34,7 +34,7 @@ class Transaction{
     // tested
     static async getOne(id) {
         const transaction = await db('transaction').where({id})
-        
+
         /**
          * In case of wish not found, knex returns an empty array.
          * Otherwise, it returns an array with just one item inside,
@@ -56,7 +56,7 @@ class Transaction{
         if (patches.total) transactionToPatch.total = patches.total
         if (patches.extra) transactionToPatch.extra = patches.extra
         const patch = await db('accounts').where({id}).update(accountToPatch, ['id', 'type', 'total', 'extra'])
-        
+
         if (patch > 0) return { message: 'Transaction updated successfully!'}
         return undefined
 
@@ -65,7 +65,7 @@ class Transaction{
     // tested
     static async delete(id) {
         const deletion = await db('transactions').where({id}).del()
-        
+
         if (deletion > 0) return { message: 'Transaction deleted successfully!' }
         return undefined
     }

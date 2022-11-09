@@ -27,13 +27,18 @@ class CbPayment extends Transaction{
 
     // tested
     static async getAll() {
-        return db.select().table('cbPayments')
+        return db.select().table('transactions')
+            .where('type', '=',  'cb_payment')
+            .join('cbPayments', function() {
+                this
+                    .on('cbPayments.id', '=', 'transactions.transaction_id')
+            })
     }
 
     // tested
     static async getOne(id) {
         const cbPayment = await db('cbPayments').where({id})
-        
+
         /**
          * In case of wish not found, knex returns an empty array.
          * Otherwise, it returns an array with just one item inside,
@@ -46,7 +51,7 @@ class CbPayment extends Transaction{
     // tested
     static async delete(id) {
         const deletion = await db('cbPayments').where({id}).del()
-        
+
         if (deletion > 0) return { message: 'CbPayment deleted successfully!' }
         return undefined
     }

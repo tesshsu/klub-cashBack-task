@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="database" uuid="f42efff9-9e75-45de-8d89-416a6bde58b7">
+    <data-source source="LOCAL" name="database" uuid="d01f4deb-7de7-4eed-9de4-42e055180f53">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\Livmeds10\Desktop\rest-api\src\db\database.db3</jdbc-url>
+      <jdbc-url>jdbc:sqlite:D:\dev\websites\klub-cashBack-task\src\db\database.db3</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
