@@ -8,11 +8,14 @@ class CbPayment extends Transaction{
     // tested
     static async create(cbPayment) {
         if (CbPayment.validate(cbPayment)) {
-            cbPayment.transaction_id = cbPayment.transactionId
-            delete cbPayment.transactionId
-            const id = await db('cbPayments').insert(cbPayment)
-            cbPayment.id = id[0]
-            return cbPayment
+            let dbCbPayment = {};
+            dbCbPayment.merchantId = cbPayment.merchantId;
+            dbCbPayment.merchantCategoryCode = cbPayment.merchantCategoryCode
+            dbCbPayment.merchantName = cbPayment.merchantName
+            dbCbPayment.countryCode = cbPayment.countryCode
+            const id = await db('cbPayments').insert(dbCbPayment);
+            dbCbPayment.id = id[0]
+            return dbCbPayment;
         } else {
             return undefined
         }

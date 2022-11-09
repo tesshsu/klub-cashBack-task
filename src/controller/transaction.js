@@ -2,11 +2,24 @@ const express = require('express')
 const router = new express.Router()
 const Transaction = require('../model/Transaction')
 const auth = require('../middleware/auth')
+const Account = require("../model/Account");
 const CbPayment = require("../model/CbPayment");
 
-router.post('/transactions', auth, async (req, res) => {
+router.post('/transactions/cbPayment', auth, async (req, res) => {
     try {
-        const nTransaction = await Transaction.create({...req.body, accountId: req.account.id})
+        const userAccount = await Account.getMyAccount(req.user.id);
+        console.log('userAccount', userAccount);
+
+        console.log('type', req.body.type);
+
+        let dbTransaction = { type : req.body.type };
+        let transactionId = undefined;
+        if(req.body.type === 'cb_payment'){
+            const cb_payment = await CbPayment.create(req.body );
+            transactionId = cb_payment.id;
+        }
+
+        const nTransaction = await Transaction.createCB({...req.body, accountId: userAccount.id, transactionId: transactionId})
         if (nTransaction) {
             res.status(201).send(nTransaction)
         } else {
@@ -17,10 +30,10 @@ router.post('/transactions', auth, async (req, res) => {
     }
 })
 
-//router.get('/transactions', auth, async (req, res) => {
-router.get('/transactions', async (req, res) => {
+
+router.get('/transactions', auth, async (req, res) => {
     try {
-        res.status(200).send(await Transaction.getAllOfOneUser(1/*req.user.id*/))
+        res.status(200).send(await Transaction.getAllOfOneUser(req.user.id))
        // res.status(200).send(await CbPayment.getAll(1/*req.user.id*/))
     } catch(err) {
         res.status(500).send({ message: err.message })
