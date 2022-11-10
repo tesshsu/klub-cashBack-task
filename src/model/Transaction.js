@@ -32,6 +32,22 @@ class Transaction{
         return valid
     }
 
+    static async createSEPA(transaction) {
+        if (Transaction.validate(transaction)) {
+            let dbTransaction = {};
+            dbTransaction.type = transaction.type;
+            dbTransaction.transaction_id = transaction.transactionId;
+            dbTransaction.account_id = transaction.accountId;
+            dbTransaction.total = transaction.total;
+            dbTransaction.description = transaction.description;
+            const id = await db('transactions').insert(dbTransaction)
+            dbTransaction.id = id[0]
+            return dbTransaction
+        } else {
+            return undefined
+        }
+    }
+
     // tested
     static async getAll() {
         return await db.select().table('transaction')

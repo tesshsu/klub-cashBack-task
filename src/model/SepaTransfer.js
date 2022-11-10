@@ -8,11 +8,11 @@ class SepaTransfer extends Transaction{
     // tested
     static async create(sepaTransfer) {
         if (SepaTransfer.validate(sepaTransfer)) {
-            sepaTransfer.transaction_id = sepaTransfer.transactionId
-            delete sepaTransfer.transactionId
-            const id = await db('sepaTransfers').insert(sepaTransfer)
-            sepaTransfer.id = id[0]
-            return sepaTransfer
+            let dbSepaTransfer = {};
+            dbSepaTransfer.expeditor_name = sepaTransfer.expeditor_name
+            const id = await db('sepaTransfers').insert(dbSepaTransfer)
+            dbSepaTransfer.id = id[0]
+            return dbSepaTransfer;
         } else {
             return undefined
         }
@@ -20,7 +20,6 @@ class SepaTransfer extends Transaction{
 
     // tested
     static validate(sepaTransfer) {
-        sepaTransfer.expeditor_name = undefined;
         let valid = true
         if (!sepaTransfer.expeditor_name) valid = false
         return valid

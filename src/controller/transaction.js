@@ -4,15 +4,10 @@ const Transaction = require('../model/Transaction')
 const auth = require('../middleware/auth')
 const Account = require("../model/Account");
 const CbPayment = require("../model/CbPayment");
-
+const SepaTransfer = require("../model/SepaTransfer");
 router.post('/transactions/cbPayment', auth, async (req, res) => {
     try {
         const userAccount = await Account.getMyAccount(req.user.id);
-        console.log('userAccount', userAccount);
-
-        console.log('type', req.body.type);
-
-        let dbTransaction = { type : req.body.type };
         let transactionId = undefined;
         if(req.body.type === 'cb_payment'){
             const cb_payment = await CbPayment.create(req.body );
@@ -20,6 +15,29 @@ router.post('/transactions/cbPayment', auth, async (req, res) => {
         }
 
         const nTransaction = await Transaction.createCB({...req.body, accountId: userAccount.id, transactionId: transactionId})
+        if (nTransaction) {
+            res.status(201).send(nTransaction)
+        } else {
+            res.status(400).send({ message: 'Invalid entry!' })
+        }
+    } catch(err) {
+        res.status(500).send({ message: err.message })
+    }
+})
+
+router.post('/transactions/sepaTransfer', auth, async (req, res) => {
+    try {
+        const userAccount = await Account.getMyAccount(req.user.id);
+        let transactionId = undefined;
+        console.log('userAccount', userAccount.id)
+        if(req.body.type === 'sepa_transfer'){
+            console.log('sepa_transfer', req.body.type)
+            const sepa_Transfer= await SepaTransfer.create(req.body );
+            transactionId = sepa_Transfer.id;
+            console.log('transactionId', transactionId)
+        }
+
+        const nTransaction = await Transaction.createSEPA({...req.body, accountId: userAccount.id, transactionId: transactionId})
         if (nTransaction) {
             res.status(201).send(nTransaction)
         } else {

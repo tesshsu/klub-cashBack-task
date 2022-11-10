@@ -24,7 +24,10 @@ class CbPayment extends Transaction{
     // tested
     static validate(cbPayment) {
         let valid = true
-        if (!cbPayment.transactionId) valid = false
+        if (!cbPayment.merchantId) valid = false
+        if (!cbPayment.merchantCategoryCode) valid = false
+        if (!cbPayment.merchantName) valid = false
+        if (!cbPayment.countryCode) valid = false
         return valid
     }
 
