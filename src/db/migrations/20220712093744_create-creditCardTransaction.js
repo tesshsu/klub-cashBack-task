@@ -3,7 +3,7 @@
  * @returns {Knex.SchemaBuilder}
  */
 exports.up = function(knex) {
-    return knex.schema.createTable('cbPayments', table => {
+    return knex.schema.createTable('credit_card_transaction', table => {
         table.increments('id')
         table.string('merchantId', 50).nullable()
         table.string('merchantCategoryCode', 30).nullable()
@@ -17,5 +17,5 @@ exports.up = function(knex) {
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
-    return knex.schema.dropTableIfExists('cbPayments');
+    return knex.schema.dropTableIfExists('credit_card_transaction');
 };

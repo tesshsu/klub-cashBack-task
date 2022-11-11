@@ -5,8 +5,8 @@
 exports.up = function(knex) {
     return knex.schema.createTable('cashbacks', table => {
         table.increments('id')
-        table.enu('status', ['waited', 'finish', 'cancel']).notNullable()
-        table.integer('total').notNullable()
+        table.enu('status', ['pending', 'terminated', 'cancel']).notNullable()
+        table.integer('amount').notNullable()
         table.integer('transaction_id').notNullable()
             .references('id')
             .inTable('transactions')

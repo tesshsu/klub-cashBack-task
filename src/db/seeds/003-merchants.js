@@ -9,7 +9,7 @@ exports.seed = async function(knex) {
   await knex('merchants').del()
 
   await knex('merchants').insert([
-    {merchantName: 'CARREFOUR', logo_url: 'https://sendeyo.com/show/d028f1abc4', description:'Transaction 1', percentageCashBack: 2.5  },
-    {merchantName: 'AUCHANT', logo_url: 'https://sendeyo.com/show/d028f1abc4', description:'Transaction 2', percentageCashBack: 3  },
+    {merchantId: 'CARREFOUR_ID', name: 'CARREFOUR', logo: 'https://sendeyo.com/show/d028f1abc4', description:'CARREFOUR TPE 1', cashback: 2.5  },
+    {merchantId: 'AUCHAN_ID', name: 'AUCHAN', logo: 'https://sendeyo.com/show/d028f1abc4', description:'AUCHAN TPE 1', cashback: 3  },
   ]);
 };

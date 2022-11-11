@@ -4,6 +4,8 @@ const db = knex(config.development)
 
 class Account {
 
+    static TABLE_NAME = 'accounts';
+
     // tested
     static async create(account) {
         if (Account.validate(account)) {
