@@ -18,7 +18,7 @@ class Transaction{
             dbTransaction.transaction_id = transaction.transactionId;
             dbTransaction.account_id = transaction.accountId;
 
-            if(transaction.unit.toLowerCase() === AmountUnit.AMOUNT_UNIT_SINGLE.toLowerCase()){
+            if(transaction.unit.toLowerCase() === Transaction.AMOUNT_UNIT_SINGLE.toLowerCase()){
                 dbTransaction.amount = transaction.amount * 100;
             } else{
                 dbTransaction.amount = transaction.amount;
@@ -36,9 +36,9 @@ class Transaction{
 
     // tested
     static validate(transaction) {
-        console.log(transaction)
         let valid = true
-        if (!transaction.total) valid = false
+        if (!transaction.amount) valid = false
+        if (!transaction.unit) valid = false
         if (!transaction.type) valid = false
         if (!transaction.transactionId) valid = false
         if (!transaction.accountId) valid = false

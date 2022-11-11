@@ -16,7 +16,6 @@ router.post('/transactions', auth, async(req, res) => {
         } else if (req.body.type === 'sepa_transfer') {
             const sepa_Transfer = await SepaTransfer.create(req.body);
             transactionId = sepa_Transfer.id;
-            console.log('transactionId', transactionId)
         }
 
         const nTransaction = await Transaction.create({
@@ -33,34 +32,6 @@ router.post('/transactions', auth, async(req, res) => {
         res.status(500).send({message: err.message})
     }
 })
-
-router.post('/transactions/sepaTransfer', auth, async(req, res) => {
-    try {
-        const userAccount = await Account.getMyAccount(req.user.id);
-        let transactionId = undefined;
-        console.log('userAccount', userAccount.id)
-        if (req.body.type === 'sepa_transfer') {
-            console.log('sepa_transfer', req.body.type)
-            const sepa_Transfer = await SepaTransfer.create(req.body);
-            transactionId = sepa_Transfer.id;
-            console.log('transactionId', transactionId)
-        }
-
-        const nTransaction = await Transaction.createSEPA({
-            ...req.body,
-            accountId: userAccount.id,
-            transactionId: transactionId
-        })
-        if (nTransaction) {
-            res.status(201).send(nTransaction)
-        } else {
-            res.status(400).send({message: 'Invalid entry!'})
-        }
-    } catch (err) {
-        res.status(500).send({message: err.message})
-    }
-})
-
 
 router.get('/transactions', auth, async(req, res) => {
     try {
@@ -84,7 +55,6 @@ router.get('/transactions/:id', auth, async(req, res) => {
     }
 })
 
-
 router.patch('/transaction/:id', auth, async(req, res) => {
     try {
         const transaction = await Transaction.getOne(req.params.id)
@@ -99,7 +69,6 @@ router.patch('/transaction/:id', auth, async(req, res) => {
         res.status(500).send({message: err.message})
     }
 })
-
 
 router.delete('/transactions/:id', auth, async(req, res) => {
     try {
