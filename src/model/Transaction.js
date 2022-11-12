@@ -44,41 +44,8 @@ class Transaction{
         return valid
     }
 
-
-    // tested
-    static async getAll() {
-        return await db.select().table('transaction')
-    }
-
-    // tested
-    static async getOne(id) {
-        const transaction = await db('transaction').where({id})
-
-        /**
-         * In case of wish not found, knex returns an empty array.
-         * Otherwise, it returns an array with just one item inside,
-         * which would be the wish we're looking for.
-         */
-         if (transaction.length === 0) return undefined
-         return transaction[0]
-    }
-
     static async getAllOfOneUser(accountId) {
         return await db('transactions').where({ account_id: accountId })
-    }
-
-    // tested
-    static async patch(id, patches) {
-        const transactionToPatch = {}
-
-        if (patches.type) transactionToPatch.type = patches.type
-        if (patches.total) transactionToPatch.total = patches.total
-        if (patches.extra) transactionToPatch.extra = patches.extra
-        const patch = await db('accounts').where({id}).update(accountToPatch, ['id', 'type', 'total', 'extra'])
-
-        if (patch > 0) return { message: 'Transaction updated successfully!'}
-        return undefined
-
     }
 
     // tested
