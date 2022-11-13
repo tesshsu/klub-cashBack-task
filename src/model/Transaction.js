@@ -2,6 +2,7 @@ const knex = require('knex')
 const config = require('../../knexfile')
 const AmountUnit = require("./Transaction");
 const db = knex(config.development)
+const Account = require("./Account");
 
 class Transaction{
 
@@ -44,8 +45,10 @@ class Transaction{
         return valid
     }
 
-    static async getAllOfOneUser(accountId) {
-        return await db('transactions').where({ account_id: accountId })
+    static async getAllOfOneUser(userId) {
+        const userAccount = await Account.getAllOfOneUser(userId);
+        const userAccountId = userAccount[0].id
+        return db('transactions').where('account_id','=', userAccountId).orderBy('amount', 'desc')
     }
 
     // tested
