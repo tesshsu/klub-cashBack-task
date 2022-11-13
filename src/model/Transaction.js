@@ -3,6 +3,7 @@ const config = require('../../knexfile')
 const AmountUnit = require("./Transaction");
 const db = knex(config.development)
 const Account = require("./Account");
+
 class Transaction{
 
     static TABLE_NAME = 'transactions';
