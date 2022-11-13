@@ -41,15 +41,6 @@ router.get('/transactions', auth, async(req, res) => {
     }
 })
 
-// Admin get list of cb payment with webhook marchant info
-router.get('/transactions/creditCardTransactions', auth, async(req, res) => {
-    try {
-        res.status(200).send(await CreditCardTransaction.getAll())
-    } catch (err) {
-        res.status(500).send({message: err.message})
-    }
-})
-
 
 router.delete('/transactions/:id', auth, async(req, res) => {
     try {
@@ -66,5 +57,33 @@ router.delete('/transactions/:id', auth, async(req, res) => {
         res.status(500).send({message: err.message})
     }
 })
+
+// Admin get list of cb payment with webhook marchant info
+router.get('/transactions/creditCardTransactions', auth, async(req, res) => {
+    try {
+        res.status(200).send(await CreditCardTransaction.getAll())
+    } catch (err) {
+        res.status(500).send({message: err.message})
+    }
+})
+
+// La liste des Merchants chez lesquels au moins 2 utilisateurs différents ont réalisés des paiement, sur une période donnée ;
+router.get('/transactions/listMerchants', auth, async(req, res) => {
+    try {
+        res.status(200).send(await CreditCardTransaction.getListMerchants())
+    } catch (err) {
+        res.status(500).send({message: err.message})
+    }
+})
+
+// Le top 10, en nombre de transactions, des MerchantID non associés à un Merchant.
+router.get('/transactions/listTops', auth, async(req, res) => {
+    try {
+        res.status(200).send(await CreditCardTransaction.getListTops())
+    } catch (err) {
+        res.status(500).send({message: err.message})
+    }
+})
+
 
 module.exports = router

@@ -42,6 +42,24 @@ class CreditCardTransaction extends Transaction{
             })
     }
 
+
+    static async getListMerchants() {
+        return db.select().table('transactions')
+            .where('type', '=',  'cb_payment')
+            .join(CreditCardTransaction.TABLE_NAME, function() {
+                this
+                    .on(CreditCardTransaction.TABLE_NAME + '.id', '=', 'transactions.transaction_id')
+            })
+    }
+
+    static async getListTops() {
+        return db.select().table('transactions')
+            .where('type', '=',  'cb_payment')
+            .join(CreditCardTransaction.TABLE_NAME, function() {
+                this
+                    .on(CreditCardTransaction.TABLE_NAME + '.id', '=', 'transactions.transaction_id')
+            })
+    }
     // tested
     static async getOne(id) {
         const creditCardTransaction = await db(CreditCardTransaction.TABLE_NAME).where({id})
