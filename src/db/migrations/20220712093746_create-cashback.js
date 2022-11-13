@@ -10,6 +10,9 @@ exports.up = function(knex) {
         table.integer('transaction_id').notNullable()
             .references('id')
             .inTable('transactions')
+        table.integer('merchant_id').notNullable()
+            .references('id')
+            .inTable('merchants')
     })
 };
 

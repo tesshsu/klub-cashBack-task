@@ -48,6 +48,7 @@ router.post('/webhooks/transactions', async(req, res) => {
             cashback.status = 'pending';
             cashback.amount = Math.round(transaction.amount * merchant.cashback / 100);
             cashback.transaction_id = transactionId;
+            cashback.merchant_id = merchant.id;
             const nCashback = await Cashback.create({
                 ...cashback
             });
