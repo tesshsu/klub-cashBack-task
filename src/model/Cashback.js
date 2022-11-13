@@ -38,9 +38,7 @@ class Cashback {
                 this
                     .on(Merchant.TABLE_NAME + '.id', '=', Cashback.TABLE_NAME + '.merchant_id')
             })
-
     }
-
 
 }
 

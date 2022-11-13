@@ -1,6 +1,7 @@
 const knex = require('knex')
 const config = require('../../knexfile')
 const Transaction = require("./Transaction");
+const Merchant = require("./Merchant");
 const db = knex(config.development)
 
 class CreditCardTransaction extends Transaction{
@@ -61,6 +62,21 @@ class CreditCardTransaction extends Transaction{
 
         if (deletion > 0) return { message: 'creditCardTransaction deleted successfully!' }
         return undefined
+    }
+
+    static async getTop10TransactionForUnregisteredMerchant () {
+        const subquery = db.table(Merchant.TABLE_NAME)
+            .select('merchantId').distinct();
+
+        return db.table(CreditCardTransaction.TABLE_NAME)
+            .select('merchantId')
+            .select('merchantName')
+            .count('id', {as: 'count'}).groupBy('merchantId')
+            .where('merchantId', 'not in', subquery)
+            .orderBy('count', 'desc')
+            .limit(10);
+
+        'merchantId'
     }
 }
 
