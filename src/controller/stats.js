@@ -14,7 +14,7 @@ router.get('/stats/amountByMerchant', async (req, res) => {
     } catch(err) {
         res.status(500).send({ message: err.message })
     }
-})
+});
 
 router.get('/stats/top10unresgitered', async (req, res) => {
     try {
@@ -27,6 +27,19 @@ router.get('/stats/top10unresgitered', async (req, res) => {
     } catch(err) {
         res.status(500).send({ message: err.message })
     }
-})
+});
+
+router.get('/stats/merchantsWithAtLeast2Customers', async (req, res) => {
+    try {
+        const rRes = await CreditCardTransaction.getMerchantsWithAtLeast2Customers();
+        if (rRes) {
+            res.status(200).send(rRes)
+        } else {
+            res.status(400).send({ message: 'Invalid entry!' })
+        }
+    } catch(err) {
+        res.status(500).send({ message: err.message })
+    }
+});
 
 module.exports = router

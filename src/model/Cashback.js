@@ -1,6 +1,7 @@
 const knex = require('knex')
 const config = require('../../knexfile')
 const Merchant = require("./Merchant");
+const Transaction = require("./Transaction");
 const db = knex(config.development)
 
 class Cashback {

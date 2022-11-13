@@ -75,8 +75,22 @@ class CreditCardTransaction extends Transaction{
             .where('merchantId', 'not in', subquery)
             .orderBy('count', 'desc')
             .limit(10);
+    }
 
-        'merchantId'
+
+    static async getMerchantsWithAtLeast2Customers () {
+        return db.table(CreditCardTransaction.TABLE_NAME)
+            .select('merchantId')
+            .select('merchantName')
+            .countDistinct(Transaction.TABLE_NAME + '.account_id', { as: 'customersCount'})
+            .join(Transaction.TABLE_NAME, function() {
+                this
+                    .on(Transaction.TABLE_NAME + '.transaction_id', '=', CreditCardTransaction.TABLE_NAME + '.id')
+            })
+            .where(Transaction.TABLE_NAME + '.type', '=', 'cb_payment')
+            .groupBy('merchantId')
+            .groupBy('merchantName')
+            .having('customersCount', '>=', 2)
     }
 }
 
